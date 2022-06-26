@@ -6,24 +6,29 @@ const dynamoDb = new AWS.DynamoDB({
   region: config.aws.ddb.region,
 });
 
+const date = new Date();
+const unixTimestamp = Math.floor(date.getTime() / 1000 );
 
-const create = (body) => {
+
+const create = async body => {
 
   const params = {
-    TableName: 'User',
+    TableName: 'user',
     Item: {
-      "id": body.id,
-      "name": body.name,
+      "id": {
+        N: body.id
+      },
+      "name": {
+        S: body.name
+      },
+      "created_at": {
+        S: String(unixTimestamp)
+      }
     },
-    ReturnValues: 'ALL_OLD'
   };
 
-  const user = dynamoDb.put(params, (err, data) => {
-    return data;
-  });
-
+  const user = await dynamoDb.putItem(params).promise();
   return user;
-  //return "Create"
 };
 
 
@@ -43,47 +48,41 @@ const getById = async id => {
 };
 
 
-const updateById = (id, body) => {
+const updateById = async (id, body) => {
 
   const params = {
-    TableName: 'User',
-    Key: {
-      "id": id
+    TableName: 'user',
+    Item: {
+      "id": {
+        N: id
+      },
+      "name": {
+        S: body.name
+      },
+      "created_at": {
+        S: String(unixTimestamp)
+      }
     },
-    UpdateExpression: "set name = :y",
-    ConditionExpression: "attribute_exists(id)",
-    ExpressionAttributeValues: {
-      ":y": body.name
-    },
-    ReturnValues: "UPDATED_NEW"
   };
 
-  const user = dynamoDb.update(params, (err, data) => {
-    return data;
-  });
-
-  //return user;
-  return "Update"
+  const user = await dynamoDb.putItem(params).promise();
+  return user;
 };
 
 
-const deleteById = (id) => {
+const deleteById = async id => {
 
   const params = {
-    TableName: 'User',
+    TableName: 'user',
     Key: {
-      "id": id,
-    },
-    ConditionExpression: "attribute_exists(id)",
-    ReturnValues: 'ALL_OLD'
+      "id": {
+        N: id
+      }
+    }
   };
 
-  const user = dynamoDb.delete(params, (err, data) => {
-    return data;
-  });
-
-  //return user;
-  return "Delete"
+  const user = await dynamoDb.deleteItem(params).promise();
+  return user;
 };
 
 
