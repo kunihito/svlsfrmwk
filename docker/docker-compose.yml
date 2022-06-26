@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    platform: linux/x86_64 # M1チップ対応
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: platform_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+  dynamodb:
+    container_name: dynamodb
+    image: amazon/dynamodb-local:latest
+    user: root
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /data
+    volumes:
+      - ./dynamodb/data:/data
+    ports:
+      - 8000:8000

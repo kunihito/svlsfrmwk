@@ -6,11 +6,13 @@ app: node-serverless-api
 # Check out our docs for more details
 frameworkVersion: "3"
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
-  region: ap-southeast-1
+  region: ap-northeast-1
   iam:
     role:
       statements:
@@ -23,34 +25,34 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: arn:aws:dynamodb:ap-southeast-1:*:*
+          Resource: arn:aws:dynamodb:ap-northeast-1:*:*
 
 resources:
   Resources:
-    NotesTable:
+    UsersTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: S
+            AttributeType: N
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: "Notes"
+        TableName: "user"
 
 functions:
-  hello:
+  node_api:
     handler: app.handler
     events:
       - http:
-          path: /
+          path: /api/v1
           method: GET
       - http:
-          path: /user
-          method: ANY
+          path: /api/v1/user
+          method: GET
       - http:
-          path: /user/{proxy+}
+          path: /api/v1/user/{proxy+}
           method: ANY
