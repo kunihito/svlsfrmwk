@@ -39,7 +39,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: "Notes"
+        TableName: "User"
 
 functions:
   hello:
@@ -49,8 +49,8 @@ functions:
           path: /
           method: GET
       - http:
-          path: /user
+          path: /users
           method: ANY
       - http:
-          path: /user/{proxy+}
+          path: /users/{proxy+}
           method: ANY
