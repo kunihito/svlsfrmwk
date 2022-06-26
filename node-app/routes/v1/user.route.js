@@ -13,7 +13,7 @@ router
   .post(userController.create);
 
 router
-  .route('/:userId')
+  .route('/:id')
   .get(userController.getById)
   .patch(userController.updateById)
   .delete(userController.deleteById);

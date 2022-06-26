@@ -22,26 +22,24 @@ const create = (body) => {
     return data;
   });
 
-  //return user;
-  return "Create"
+  return user;
+  //return "Create"
 };
 
 
-const getById = (id) => {
+const getById = async id => {
 
   const params = {
-    TableName: 'User',
+    TableName: 'user',
     Key: {
-      "id": id,
+      "id": {
+        N: id
+      }
     }
   };
 
-  const user = dynamoDb.get(params, (err, data) => {
-    return data;
-  });
-
-  //return user;
-  return "Get"
+  const user = await dynamoDb.getItem(params).promise();
+  return user.Item;
 };
 
 
