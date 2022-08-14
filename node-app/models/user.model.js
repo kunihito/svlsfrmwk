@@ -1,8 +1,9 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
-const platformDb = require('../../db');
-const { roles, roleName } = require('../../config/roles');
-const config = require('../../config/config');
+
+const platformDb = require('../db');
+const { roles, roleName } = require('../config/roles');
+const config = require('../config/config');
 
 const User = platformDb.define(
   'User',
