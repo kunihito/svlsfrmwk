@@ -20,8 +20,8 @@ const User = rdb.define('User', {
   role: {
     type: DataTypes.ENUM,
     allowNull: false,
-    values: roles,
-    defaultValue: 'usr'
+    values: ['user', 'admin'],
+    defaultValue: 'user'
   },
   name: {
     type: DataTypes.STRING,
