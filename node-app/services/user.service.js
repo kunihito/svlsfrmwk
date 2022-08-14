@@ -16,7 +16,7 @@ const create = async (body) => {
  * @returns {Promise<User>}
  */
 const getById = async (id) => {
-  const user = await User.getById(id);
+  const user = await User.findByPk(id);
   return user;
 };
 
@@ -27,7 +27,11 @@ const getById = async (id) => {
  * @returns {Promise<User>}
  */
 const updateById = async (id, body) => {
-  const user = await User.updateById(id, body);
+  const user = await User.update(body, {
+    where: {
+      id: id
+    }
+  });
   return user;
 };
 
@@ -37,7 +41,11 @@ const updateById = async (id, body) => {
  * @returns {Promise<User>}
  */
 const deleteById = async (id) => {
-  const user = await User.deleteById(id);
+  const user = await User.destroy({
+    where: {
+      id: id
+    }
+  });
   return user;
 };
 

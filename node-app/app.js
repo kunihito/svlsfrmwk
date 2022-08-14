@@ -16,5 +16,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 // v1 api routes
 app.use('/api/v1', apiRoutes);
 
-//module.exports = app;
-module.exports.handler = serverless(app);
+module.exports = app;
+// module.exports.handler = serverless(app);

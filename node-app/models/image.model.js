@@ -1,10 +1,4 @@
-const AWS = require('aws-sdk');
-const config = require('../../config/config');
-
-const dynamoDb = new AWS.DynamoDB({
-  endpoint: config.aws.ddb.endpoint,
-  region: config.aws.ddb.region,
-});
+const dynamoDb = require('../db/ddb');
 
 const date = new Date();
 const unixTimestamp = Math.floor(date.getTime() / 1000 );
@@ -13,29 +7,32 @@ const unixTimestamp = Math.floor(date.getTime() / 1000 );
 const create = async body => {
 
   const params = {
-    TableName: 'user',
+    TableName: 'image',
     Item: {
       "id": {
         N: body.id
       },
-      "name": {
-        S: body.name
+      "url": {
+        S: body.url
       },
       "created_at": {
+        S: String(unixTimestamp)
+      },
+      "updated_at": {
         S: String(unixTimestamp)
       }
     },
   };
 
-  const user = await dynamoDb.putItem(params).promise();
-  return user;
+  const image = await dynamoDb.putItem(params).promise();
+  return image;
 };
 
 
 const getById = async id => {
 
   const params = {
-    TableName: 'user',
+    TableName: 'image',
     Key: {
       "id": {
         N: id
@@ -43,37 +40,34 @@ const getById = async id => {
     }
   };
 
-  const user = await dynamoDb.getItem(params).promise();
-  return user.Item;
+  const image = await dynamoDb.getItem(params).promise();
+  return image.Item;
 };
 
 
 const updateById = async (id, body) => {
 
   const params = {
-    TableName: 'user',
+    TableName: 'image',
     Item: {
-      "id": {
-        N: id
+      "url": {
+        S: body.url
       },
-      "name": {
-        S: body.name
-      },
-      "created_at": {
+      "updated_at": {
         S: String(unixTimestamp)
       }
     },
   };
 
-  const user = await dynamoDb.putItem(params).promise();
-  return user;
+  const image = await dynamoDb.putItem(params).promise();
+  return image;
 };
 
 
 const deleteById = async id => {
 
   const params = {
-    TableName: 'user',
+    TableName: 'image',
     Key: {
       "id": {
         N: id
@@ -81,8 +75,8 @@ const deleteById = async id => {
     }
   };
 
-  const user = await dynamoDb.deleteItem(params).promise();
-  return user;
+  const image = await dynamoDb.deleteItem(params).promise();
+  return image;
 };
 
 
