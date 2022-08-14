@@ -1,10 +1,4 @@
-const AWS = require('aws-sdk');
-const config = require('../config/config');
-
-const dynamoDb = new AWS.DynamoDB({
-  endpoint: config.aws.ddb.endpoint,
-  region: config.aws.ddb.region,
-});
+const dynamoDb = require('../db/ddb');
 
 const date = new Date();
 const unixTimestamp = Math.floor(date.getTime() / 1000 );
