@@ -2,3 +2,4 @@
 
 /mysql/data
 /dynamodb/data
+/redis/data

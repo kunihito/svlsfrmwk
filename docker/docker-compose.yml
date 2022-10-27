@@ -1,11 +1,24 @@
-version: '3'
-
 services:
+
+  node:
+    container_name: node
+    image: 'node:latest'
+    tty: true
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../node-app/:/usr/src/app
+    working_dir: /usr/src/app
+    command: sh init.sh
+    depends_on:
+      - mysql
+      - dynamodb
+      - redis
 
   mysql:
     container_name: mysql
     image: mysql:latest
-    platform: linux/x86_64 # M1チップ対応
+    # platform: linux/x86_64 # M1チップ対応
     volumes:
       - ./mysql/data:/var/lib/mysql
     ports:
@@ -23,3 +36,11 @@ services:
       - ./dynamodb/data:/data
     ports:
       - 8000:8000
+
+  redis:
+    container_name: redis
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    volumes:
+      - './redis/data:/data'
