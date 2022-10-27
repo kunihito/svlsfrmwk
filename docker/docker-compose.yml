@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 
   mysql:
@@ -23,3 +21,11 @@ services:
       - ./dynamodb/data:/data
     ports:
       - 8000:8000
+
+  redis:
+    container_name: redis
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    volumes:
+      - './redis/data:/data'
