@@ -5,6 +5,7 @@ const logger = require('morgan');
 const serverless = require('serverless-http');
 
 const apiRoutes = require('./routes/v1');
+const apiSession = require('./session/session');
 
 const app = express();
 
@@ -12,6 +13,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// session
+app.use(apiSession);
 
 // v1 api routes
 app.use('/api/v1', apiRoutes);

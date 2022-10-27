@@ -5,7 +5,11 @@ const userRoute = require('./user.route');
 const imageRoute = require('./image.route');
 
 router.get('/', (req, res, next) => {
-  res.status(200).json({status: 'success(top page)'})
+  if (!req.session.views) {
+    req.session.views = 0;
+  };
+  req.session.views++;
+  res.status(200).json({status: 'success(top page)', views: req.session.views});
 });
 
 router.use('/user', userRoute);
