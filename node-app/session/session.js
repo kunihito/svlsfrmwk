@@ -2,7 +2,7 @@ const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 
-const client = redis.createClient('redis://localhost:6379');
+const client = redis.createClient(6379, 'redis');
 
 const apiSession = session({
     name: 'mockSessionId',
